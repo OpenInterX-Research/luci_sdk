@@ -1,0 +1,61 @@
+# Model files
+models/ST-R1-mcq/
+models/Ego-ST/
+*.safetensors
+*.bin
+*.pt
+
+# Task results (auto-generated)
+tasks/*/results/
+*_results.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Large video files (use Git LFS or external links)
+tasks/*/videos/*.mp4
+tasks/*/videos/*.MP4
+tasks/*/videos/*.mov
+tasks/*/videos/*.MOV
+tasks/*/videos/*.avi
+tasks/*/videos/*.mkv
+
+# Keep directory structure but not large files
+!tasks/*/videos/README.md

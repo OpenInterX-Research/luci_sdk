@@ -1,0 +1,65 @@
+{
+  "task_info": {
+    "task_name": "beach_analysis",
+    "description": "Beach video color analysis focusing on woman, dress, hair, sky, and location",
+    "created": "2025-01-08",
+    "video_directory": "tasks/beach_analysis/videos"
+  },
+  "questions": [
+    {
+      "id": 1,
+      "category": "color",
+      "question": "What color is the beach in this video?",
+      "options": [
+        "Golden/sandy brown",
+        "White/light colored",
+        "Dark gray/black",
+        "Red/orange tinted"
+      ]
+    },
+    {
+      "id": 2,
+      "category": "color",
+      "question": "What color is the woman's dress?",
+      "options": [
+        "Blue",
+        "Red",
+        "White/cream",
+        "Black"
+      ]
+    },
+    {
+      "id": 3,
+      "category": "color",
+      "question": "What color is the woman's hair?",
+      "options": [
+        "Blonde/light",
+        "Brown/dark brown",
+        "Black",
+        "Red/auburn"
+      ]
+    },
+    {
+      "id": 4,
+      "category": "color",
+      "question": "What color is the sky?",
+      "options": [
+        "Clear blue",
+        "Gray/cloudy",
+        "Orange/sunset",
+        "Pink/dawn"
+      ]
+    },
+    {
+      "id": 5,
+      "category": "location",
+      "question": "Where is the woman sitting?",
+      "options": [
+        "On the beach/sand",
+        "On a chair/bench",
+        "On rocks/stones",
+        "On a blanket/towel"
+      ]
+    }
+  ]
+}

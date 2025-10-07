@@ -1,0 +1,65 @@
+{
+  "task_info": {
+    "task_name": "corridor_navigation",
+    "description": "Indoor corridor navigation analysis focusing on movement and environment",
+    "created": "2025-01-08",
+    "video_directory": "tasks/corridor_navigation/videos"
+  },
+  "questions": [
+    {
+      "id": 1,
+      "category": "direction",
+      "question": "What direction is the person moving?",
+      "options": [
+        "Forward/straight ahead",
+        "Backward/retreating",
+        "Left/turning left",
+        "Right/turning right"
+      ]
+    },
+    {
+      "id": 2,
+      "category": "environment",
+      "question": "What type of environment is this?",
+      "options": [
+        "Indoor corridor/hallway",
+        "Outdoor street/sidewalk",
+        "Park/garden path",
+        "Parking lot/garage"
+      ]
+    },
+    {
+      "id": 3,
+      "category": "position",
+      "question": "Where is the person positioned in the path?",
+      "options": [
+        "Center of the path",
+        "Left side of the path",
+        "Right side of the path",
+        "Moving between sides"
+      ]
+    },
+    {
+      "id": 4,
+      "category": "speed",
+      "question": "How would you describe the movement speed?",
+      "options": [
+        "Fast/hurried walking",
+        "Normal/steady pace",
+        "Slow/cautious movement",
+        "Variable/changing speed"
+      ]
+    },
+    {
+      "id": 5,
+      "category": "landmarks",
+      "question": "What landmarks are most visible?",
+      "options": [
+        "Doors and doorways",
+        "Windows and glass",
+        "Signs and information",
+        "Furniture and equipment"
+      ]
+    }
+  ]
+}
