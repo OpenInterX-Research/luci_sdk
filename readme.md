@@ -20,7 +20,7 @@ It covers network setup, LUCI app connection, and real-time video testing using 
 3. Retrieve the **IP address** assigned to your PC.
 4. Save LUCI’s **IP address** for later use.
 
-![LUCI App Connection](images/luci_app_connection.png)
+![LUCI App Connection](images/luci_internet.png)
 
 ---
 
