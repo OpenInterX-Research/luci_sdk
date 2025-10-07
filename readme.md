@@ -34,7 +34,6 @@ It covers network setup, LUCI app connection, and real-time video testing using 
 
 3. You should now see the **real-time pin view**.
 
-![VLC Preview](images/vlc_preview.png)
 
 ---
 
