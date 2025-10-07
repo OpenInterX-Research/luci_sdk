@@ -16,10 +16,10 @@ class RtspRecorder:
         self.save_dir = save_dir
         self.segment_time = segment_time
         self.mode = mode
-        self.buffer_size = buffer_size   # 缓存秒数
+        self.buffer_size = buffer_size   # memory length
         self.proc = None
-        self.buffer = collections.deque(maxlen=buffer_size * 30)  # 粗略假设30fps，每秒30个块
-        self.timestamps = collections.deque(maxlen=buffer_size * 30)  # 记录时间戳
+        self.buffer = collections.deque(maxlen=buffer_size * 30)  # buffer size
+        self.timestamps = collections.deque(maxlen=buffer_size * 30)  # timestamps
         self.thread = None
 
         os.makedirs(save_dir, exist_ok=True)
@@ -57,7 +57,7 @@ class RtspRecorder:
         self.thread.start()
 
     def _reader(self):
-        """后台线程读取 ffmpeg 输出到内存"""
+        """ ffmpeg output to memory"""
         while True:
             data = self.proc.stdout.read(4096)
             if not data:
@@ -68,17 +68,17 @@ class RtspRecorder:
 
     def dump(self, filename, start=-30, end=0):
         """
-        导出内存缓存中的一段视频。
-        参数:
-          filename: 保存的文件名
-          start: 相对现在的起始秒数 (负数表示往前)
-          end: 相对现在的结束秒数 (<=0)
-        示例:
-          dump("last10s.ts", start=-10, end=0) → 最近10秒
-          dump("clip.ts", start=-30, end=-15) → 最近30到最近15秒之间
+        output the video of the memory to the disk
+        parameters:
+          filename: 
+          start: start second
+          end: end second
+        examples:
+          dump("last10s.ts", start=-10, end=0) → latest 10s
+          dump("clip.ts", start=-30, end=-15) → 
         """
         if self.mode != "memory":
-            raise RuntimeError("dump 仅适用于内存模式 (mode='memory')")
+            raise RuntimeError("dump only in (mode='memory')")
 
         t_now = time.time()
         t_start = t_now + start
@@ -90,3 +90,4 @@ class RtspRecorder:
                     f.write(chunk)
 
         print(f"[Recorder] Dumped buffer to {filename} ({start}..{end} sec)")
+
