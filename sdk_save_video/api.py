@@ -9,5 +9,6 @@ rec = RtspRecorder(
 )
 
 rec.start()
-time.sleep(120)   # 录制 2 分钟
+time.sleep(120)   # record for 2 min== 120s
+
 rec.stop()
