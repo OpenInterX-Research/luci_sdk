@@ -58,7 +58,7 @@ These are required for video recording and image capture.
 
 2. The script will automatically save video files or images locally.
 
-![Python Recording Script](images/python_recording.png)
+![Python Recording Script](images/capture.jpg)
 
 ---
 
@@ -67,7 +67,6 @@ These are required for video recording and image capture.
 - Ensure LUCI, the PC, and your phone are all connected to the same hotspot.
 - You are now ready to use LUCI Pin for real-time video capture.
 
-![System Overview](images/system_overview.png)
 
 ---
 
