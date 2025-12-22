@@ -5,6 +5,10 @@ import re
 
 from sdk_capture.capture_sdk import SingleCameraCapture
 from .device import DeviceAPI
+from .capture import CaptureAPI
+from .video import VideoAPI
+from .memory import MemoryAPI
+from .dual import DualCaptureAPI
 
 
 class LUCI:
@@ -195,3 +199,19 @@ class LUCI:
             name="luci"
         )
         cap.run()
+
+    @property
+    def capture(self) -> CaptureAPI:
+        return CaptureAPI(self)
+
+    @property
+    def video(self) -> VideoAPI:
+        return VideoAPI(self)
+
+    @property
+    def memory(self) -> MemoryAPI:
+        return MemoryAPI(self)
+
+    @property
+    def dual(self) -> DualCaptureAPI:
+        return DualCaptureAPI(self)
