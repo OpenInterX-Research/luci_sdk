@@ -190,6 +190,8 @@ By performing dual-eye calibration on a single-eye LUCI system, we can:
 - If RTSP playback fails, check your **firewall** or **IP settings**.  
 - Replace the IP address in the RTSP URL if your hotspot assigns a different one.  
 - Cached recording and capture SDKs are supported on both **Windows** and **Linux**.
+- The examples directory contains ready-to-run scripts. examples/quickstart.py:
+Initial setup, ADB connection, device inspection, IP caching. examples/record_video.py: Robust RTSP recording workflow with fallback logic. Examples are provided for demonstration purposes and are not part of the public API.
 
 ---
 
