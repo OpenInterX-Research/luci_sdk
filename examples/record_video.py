@@ -4,10 +4,8 @@ import time
 
 from luci import LUCI
 from luci.utils import load_ip, save_ip
-from sdk_save_video.luci_sdk import RtspRecorder
 
 DEFAULT_PORT = 50001
-DEFAULT_PATH = "/live/0"
 
 
 def rtsp_reachable(ip: str, port: int, timeout: float = 2.0) -> bool:
@@ -60,18 +58,12 @@ def main():
             luci = LUCI.connect_via_adb()
         except RuntimeError as e:
             print(f"[ERROR] {e}")
-            print(
-                "\n[HINT]\n"
-                "  • If the device is already on Wi-Fi, ensure the cached IP is valid\n"
-                "  • Or connect the LUCI Pin via USB and enable ADB\n"
-            )
             return
 
         ip = luci.ip_address
         if ip and rtsp_reachable(ip, DEFAULT_PORT):
             print(f"[INFO] RTSP reachable via ADB-detected IP: {ip}")
             save_ip(ip)
-            print(f"[INFO] Saved IP address: {ip}")
         else:
             print("[INFO] Attempting hotspot connection...")
             ssid = input("Hotspot SSID: ").strip()
@@ -84,31 +76,24 @@ def main():
                 raise RuntimeError("RTSP stream not reachable after hotspot connection")
 
             save_ip(ip)
-            print(f"[INFO] Saved IP address: {ip}")
 
     # --------------------------------------------------
-    # 3. Record using known-good workflow
+    # 3. Record using LUCI wrapper
     # --------------------------------------------------
-    rtsp_url = f"rtsp://{ip}:{DEFAULT_PORT}{DEFAULT_PATH}"
-    print(f"[INFO] Recording RTSP stream: {rtsp_url}")
-
-    recorder = RtspRecorder(
-        rtsp_url=rtsp_url,
-        ffmpeg_path=args.ffmpeg,
+    print("[INFO] Starting recording...")
+    luci.video.start(
         save_dir=args.save_dir,
-        segment_time=args.segment_time
+        segment_time=args.segment_time,
+        ffmpeg_path=args.ffmpeg,
     )
 
-    recorder.start()
     print(f"[INFO] Recording for {args.duration} seconds")
-    print("[INFO] Do NOT press Ctrl+C unless you want to stop early")
-
     try:
         time.sleep(args.duration)
     except KeyboardInterrupt:
-        print("\n[WARN] Ctrl+C detected — stopping recording safely")
+        print("\n[WARN] Ctrl+C detected — stopping early")
     finally:
-        recorder.stop()
+        luci.video.stop()
         print("[SUCCESS] Recording finished")
         print(f"[INFO] Files saved in: {args.save_dir}")
 
