@@ -9,10 +9,6 @@ DEFAULT_PORT = 50001
 
 
 def rtsp_reachable(ip: str, port: int, timeout: float = 2.0) -> bool:
-    """
-    Fast check to see whether the RTSP port is reachable.
-    Avoids launching FFmpeg unnecessarily.
-    """
     try:
         with socket.create_connection((ip, port), timeout=timeout):
             return True
@@ -24,78 +20,63 @@ def main():
     parser = argparse.ArgumentParser(
         description="Record LUCI RTSP stream (cached IP → ADB fallback)"
     )
-    parser.add_argument("--duration", type=int, default=10,
-                        help="Recording duration in seconds")
-    parser.add_argument("--segment-time", type=int, default=5,
-                        help="FFmpeg segment duration in seconds")
-    parser.add_argument("--save-dir", default="recordings",
-                        help="Directory to save recordings")
-    parser.add_argument("--ffmpeg", default="ffmpeg",
-                        help="Path to ffmpeg executable")
+    parser.add_argument("--duration", type=int, default=10)
+    parser.add_argument("--segment-time", type=int, default=5)
+    parser.add_argument("--save-dir", default="recordings")
+    parser.add_argument("--ffmpeg", default="ffmpeg")
     args = parser.parse_args()
 
-    ip = None
+    # --------------------------------------------------
+    # Always create LUCI instance
+    # --------------------------------------------------
     luci = None
+    ip = None
 
-    # --------------------------------------------------
-    # 1. Try cached IP first
-    # --------------------------------------------------
     cached_ip = load_ip()
-    if cached_ip:
-        print(f"[INFO] Found cached IP: {cached_ip}")
-        if rtsp_reachable(cached_ip, DEFAULT_PORT):
-            print("[INFO] RTSP reachable via cached IP")
-            ip = cached_ip
-        else:
-            print("[WARN] Cached IP not reachable")
+    if cached_ip and rtsp_reachable(cached_ip, DEFAULT_PORT):
+        print(f"[INFO] Using cached IP: {cached_ip}")
+        luci = LUCI(device_id="cached")
+        luci._ip_address = cached_ip
+        ip = cached_ip
 
     # --------------------------------------------------
-    # 2. Try ADB if no valid IP yet
+    # Fallback to ADB
     # --------------------------------------------------
     if not ip:
         print("[INFO] Trying ADB connection...")
-        try:
-            luci = LUCI.connect_via_adb()
-        except RuntimeError as e:
-            print(f"[ERROR] {e}")
-            return
-
+        luci = LUCI.connect_via_adb()
         ip = luci.ip_address
-        if ip and rtsp_reachable(ip, DEFAULT_PORT):
-            print(f"[INFO] RTSP reachable via ADB-detected IP: {ip}")
-            save_ip(ip)
-        else:
+
+        if not ip or not rtsp_reachable(ip, DEFAULT_PORT):
             print("[INFO] Attempting hotspot connection...")
             ssid = input("Hotspot SSID: ").strip()
             password = input("Hotspot Password: ").strip()
-
             luci.join_hotspot(ssid, password)
             ip = luci.ip_address
 
-            if not ip or not rtsp_reachable(ip, DEFAULT_PORT):
-                raise RuntimeError("RTSP stream not reachable after hotspot connection")
+        if not ip:
+            raise RuntimeError("RTSP stream not reachable")
 
-            save_ip(ip)
+        save_ip(ip)
 
     # --------------------------------------------------
-    # 3. Record using LUCI wrapper
+    # Record using wrapper
     # --------------------------------------------------
-    print("[INFO] Starting recording...")
+    print(f"[INFO] Recording from {ip}")
+
     luci.video.start(
         save_dir=args.save_dir,
         segment_time=args.segment_time,
         ffmpeg_path=args.ffmpeg,
     )
 
-    print(f"[INFO] Recording for {args.duration} seconds")
     try:
         time.sleep(args.duration)
     except KeyboardInterrupt:
-        print("\n[WARN] Ctrl+C detected — stopping early")
+        print("[WARN] Interrupted")
     finally:
         luci.video.stop()
         print("[SUCCESS] Recording finished")
-        print(f"[INFO] Files saved in: {args.save_dir}")
 
 
 if __name__ == "__main__":
