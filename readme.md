@@ -85,12 +85,14 @@ Or alternatively,
 from luci import LUCI
 
 luci = LUCI.connect_via_adb()
+
+if not luci.ip_address:
+    luci.join_hotspot("HOTSPOT_SSID", "HOTSPOT_PASSWORD")
+
 luci.video.start(
     segment_time=60,
-    save_dir="recordings"
+    save_dir="recordings",
 )
-
-# ... record ...
 
 luci.video.stop()
 ```
@@ -115,12 +117,18 @@ Or alternatively,
 
 ```python
 from luci import LUCI
+import time
 
 luci = LUCI.connect_via_adb()
-luci.memory.start(buffer_size=60)
+if not luci.ip_address:
+    luci.join_hotspot("HOTSPOT_SSID", "HOTSPOT_PASSWORD")
 
-luci.memory.dump("last10s.ts", start=-10, end=0)
-luci.memory.stop()
+mem = luci.memory
+mem.start(buffer_size=60)
+time.sleep(20)
+mem.dump("last10s.ts", start=-10, end=0)
+mem.dump("mid_clip.ts", start=-30, end=-15)
+mem.stop()
 ```
 
 ---
@@ -168,18 +176,6 @@ python dual_luci_capture/dual_eye_threaded.py
   captures/cam1_2025-08-26_17-08-00.jpg
   captures/cam2_2025-08-26_17-08-00.jpg
   ```
-
-Or alternatively,
-```python
-from luci import LUCI
-
-luci = LUCI()
-luci.dual.run(
-    rtsp_left="rtsp://LEFT_IP:50001/live/0",
-    rtsp_right="rtsp://RIGHT_IP:50001/live/0",
-    save_dir="captures"
-)
-```
 
 ---
 
