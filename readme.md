@@ -3,7 +3,7 @@
 ## 📡 Overview
 
 This guide explains how to connect and stream video from the **LUCI Pin** device on Windows or Linux systems.  
-It covers network setup, LUCI app connection, and real-time video testing using VLC and Python tools.
+It covers network setup, LUCI app connection, and real-time video testing using VLC and the pip-installable LUCI Python SDK.
 
 ---
 
@@ -42,14 +42,21 @@ It covers network setup, LUCI app connection, and real-time video testing using 
 
 ---
 
-## 🧬 4. Install Dependencies
+## 🧬 4. Install LUCI SDK
 
-On your PC, install:
+The LUCI SDK is now distributed as a pip package.
+```bash
+pip install luci-sdk
+```
+### System Requirements
 
-- [OpenCV-Python](https://pypi.org/project/opencv-python/)
-- [FFmpeg](https://ffmpeg.org/)
+- Python ≥ 3.9
 
-These are required for video recording and image capture.
+- ADB available in system PATH
+
+- [FFmpeg](https://ffmpeg.org/) installed and accessible
+
+The SDK automatically pulls required Python dependencies (e.g. [OpenCV-Python](https://pypi.org/project/opencv-python/)).
 
 ---
 
@@ -67,11 +74,26 @@ Record LUCI’s RTSP stream in **real time** and automatically save each 60-seco
 ```bash
 python sdk_save_video/api.py
 ```
-
 ✅ **Features:**
 - Uses **FFmpeg** backend  
 - Outputs video segments (e.g. `recording/output_2025-08-26_17-00-00.h264`)  
 - Designed for long-duration continuous recording  
+
+Or alternatively,
+
+```python
+from luci import LUCI
+
+luci = LUCI.connect_via_adb()
+luci.video.start(
+    segment_time=60,
+    save_dir="recordings"
+)
+
+# ... record ...
+
+luci.video.stop()
+```
 
 ---
 
@@ -87,7 +109,19 @@ python sdk_memory/api.py
 ✅ **Advantages:**
 - Keeps only the latest N seconds in memory  
 - Saves only important moments  
-- Reduces disk I/O — ideal for high-bitrate streams  
+- Reduces disk I/O — ideal for high-bitrate streams
+
+Or alternatively,
+
+```python
+from luci import LUCI
+
+luci = LUCI.connect_via_adb()
+luci.memory.start(buffer_size=60)
+
+luci.memory.dump("last10s.ts", start=-10, end=0)
+luci.memory.stop()
+```
 
 ---
 
@@ -108,6 +142,14 @@ python sdk_capture/api_capture.py
   cam_2025-08-26_17-05-23.jpg
   ```
 
+Or alternatively,
+```python
+from luci import LUCI
+
+luci = LUCI.connect_via_adb()
+luci.capture.frame(save_dir="captures")
+```
+
 ---
 
 ### 👀 (D) Dual-Camera Capture SDK
@@ -126,6 +168,18 @@ python dual_luci_capture/dual_eye_threaded.py
   captures/cam1_2025-08-26_17-08-00.jpg
   captures/cam2_2025-08-26_17-08-00.jpg
   ```
+
+Or alternatively,
+```python
+from luci import LUCI
+
+luci = LUCI()
+luci.dual.run(
+    rtsp_left="rtsp://LEFT_IP:50001/live/0",
+    rtsp_right="rtsp://RIGHT_IP:50001/live/0",
+    save_dir="captures"
+)
+```
 
 ---
 
@@ -190,10 +244,11 @@ By performing dual-eye calibration on a single-eye LUCI system, we can:
 - If RTSP playback fails, check your **firewall** or **IP settings**.  
 - Replace the IP address in the RTSP URL if your hotspot assigns a different one.  
 - Cached recording and capture SDKs are supported on both **Windows** and **Linux**.
+- Internal folders such as sdk_capture, sdk_save_video, etc. provide implementation details
 - The examples directory contains ready-to-run scripts. examples/quickstart.py:
 Initial setup, ADB connection, device inspection, IP caching. examples/record_video.py: Robust RTSP recording workflow with fallback logic. Examples are provided for demonstration purposes and are not part of the public API.
 
 ---
 
 **Author:** LUCI Team  
-**Last updated:** 2025
+**Last updated:** 2026
