@@ -5,6 +5,10 @@
 This guide explains how to connect and stream video from the **LUCI Pin** device on Windows or Linux systems.  
 It covers network setup, LUCI app connection, and real-time video testing using VLC and the pip-installable LUCI Python SDK.
 
+## AI Environment
+
+For the repo's inference-side AI workflow, use [AI_ENV_SETUP.md](/Users/wf24018/home/luci_sdk/AI_ENV_SETUP.md) with [environment.ai.yml](/Users/wf24018/home/luci_sdk/environment.ai.yml).
+
 ---
 
 ## ⚙️ 1. Enable Hotspot on PC

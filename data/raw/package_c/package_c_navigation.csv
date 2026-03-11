@@ -1,0 +1,1 @@
+run_id,prompt_variant,route_length,scene_type,lighting_condition,path_correctness,direction_change_correctness,followability_score,hallucinated_landmark_rate,capture_ms,prompt_build_ms,inference_ms,render_ms,end_to_end_ms,failure_type,notes

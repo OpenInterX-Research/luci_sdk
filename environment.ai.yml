@@ -1,0 +1,20 @@
+name: luci-ai
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - ffmpeg
+  - numpy>=1.21
+  - pillow>=8
+  - matplotlib
+  - pip:
+      # Install PyTorch separately after activation so the user can choose
+      # the package source that matches local hardware. On macOS with Anaconda,
+      # prefer conda-installed PyTorch to avoid duplicate libomp loading.
+      - "accelerate>=0.20.0"
+      - "av"
+      - "huggingface-hub[cli]>=0.15.0"
+      - "qwen-vl-utils>=0.0.14"
+      - "sentencepiece"
+      - "transformers>=4.40.0"

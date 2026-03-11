@@ -7,7 +7,7 @@ Works with any task configuration - no task-specific code needed
 import sys
 import os
 import json
-from video_qa import NavigationVideoQA
+from video_qa import VideoQAEngine
 
 def main():
     """Universal analysis that works with any task"""
@@ -39,17 +39,12 @@ def main():
 
     # Initialize QA system with provided model path and fallback
     try:
-        if os.path.exists(model_path):
-            qa = NavigationVideoQA(model_path)
-        else:
-            print(f"Warning: Model path not found: {model_path}")
-            print(f"Falling back to: {fallback_model}")
-            qa = NavigationVideoQA(fallback_model)
+        qa = VideoQAEngine(model_path)
     except Exception as e:
         print(f"Error loading model: {e}")
         try:
             print(f"Trying fallback model: {fallback_model}")
-            qa = NavigationVideoQA(fallback_model)
+            qa = VideoQAEngine(fallback_model)
         except Exception as e2:
             print(f"Error loading fallback model: {e2}")
             sys.exit(1)
@@ -60,7 +55,7 @@ def main():
 
     for q in config.get("questions", []):
         try:
-            result = qa.ask_question(video_file, q["question"], q["options"])
+            result = qa.ask_question(video_file, q["question"], q.get("options"))
             result["question_id"] = q["id"]
             result["category"] = q.get("category", "general")
             results.append(result)

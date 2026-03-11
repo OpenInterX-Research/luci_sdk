@@ -10,8 +10,8 @@ from transformers import Qwen2VLForConditionalGeneration, AutoProcessor
 from qwen_vl_utils import process_vision_info
 
 
-class NavigationVideoQA:
-    """Video QA system for egocentric navigation analysis"""
+class VideoQAEngine:
+    """Video QA engine backed by Qwen-compatible video-language models."""
 
     def __init__(self, model_path="ST-R1-mcq"):
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -106,3 +106,6 @@ class NavigationVideoQA:
             if char in 'ABCD':
                 return char
         return 'A'  # Default fallback
+
+
+NavigationVideoQA = VideoQAEngine
