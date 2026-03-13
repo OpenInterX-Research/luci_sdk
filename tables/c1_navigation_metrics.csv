@@ -1,0 +1,1 @@
+prompt_variant,route_length,scene_type,n_runs,path_correctness_mean,followability_mean,hallucinated_landmark_rate_mean,end_to_end_ms_mean

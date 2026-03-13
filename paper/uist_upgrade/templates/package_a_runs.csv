@@ -1,0 +1,2 @@
+run_id,workflow_condition,device_mode,network_condition,duration_class,task,success,time_ms,latency_mean_ms,latency_p50_ms,latency_p95_ms,fps_achieved,frame_drop_rate,reconnect_count,reconnect_p95_ms,failure_type,notes
+

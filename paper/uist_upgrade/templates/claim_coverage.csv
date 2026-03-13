@@ -1,0 +1,5 @@
+claim_id,quant_metrics_count,figure_ids,boundary_statement,status
+C1,1,Fig A1;Fig A2,Performance degrades under weak/lossy Wi-Fi and reconnect overhead increases in long runs,complete
+C2,1,Fig B1;Tab B1,Internal pilot sample size limits external validity and should be interpreted as formative evidence,complete
+C3,1,Fig C1;Fig C2,Long-horizon navigation and reflective or textureless measurement remain boundary failure cases,complete
+

@@ -1,0 +1,49 @@
+Lucia 论文新结构简述
+
+1. 论文定位变了
+原来：SDK + 两个案例研究
+现在：一个统一的 wearable AI prototyping system
+
+核心主线：
+- Lucia 不是两个独立应用的组合
+- Lucia 的核心贡献是统一的 session-centered pipeline
+- navigation 和 measurement 只是两个 plug-in
+
+2. 新的三条核心贡献
+- 统一系统：共享连接、流传输、session、logging
+- 开发效率：降低原型开发成本和复杂度
+- 广泛适用：同一系统支持导航推理和度量感知，并明确边界
+
+3. 新的论文结构
+- Introduction：问题、系统主张、3 个贡献、RQ1-RQ3
+- Related Work：wearable AI、navigation、depth、toolkits
+- System Design：session abstraction、plug-in interface、logging
+- Evaluation：
+  A. 平台 benchmark
+  B. developer study
+  C. navigation / measurement plug-in ablation
+- Discussion：系统价值、失败边界、reproducibility
+- Conclusion
+
+4. 原论文中保留的内容
+- Lucia 的设备连接与 streaming 能力
+- navigation 部分的 ST-Think 集成与结果
+- measurement 部分的 stereo / depth / size estimation 内容
+- 现有 calibration 和应用结果
+
+5. 新增的关键内容
+- session abstraction
+- plug-in interface
+- 统一 logging schema
+- claim-evidence matrix
+- 平台 benchmark
+- developer productivity study
+- navigation anchor ablation
+- measurement fusion ablation
+- failure taxonomy
+
+6. 最重要的写法变化
+- 不再写成“两个 case study”
+- 改写成“一个系统 + 两个 plug-in”
+- 每个 claim 都必须有对应实验和 limitation
+

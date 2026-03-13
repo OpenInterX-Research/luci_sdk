@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deep Research"
+  short_description: "Rigorous, source-backed research workflow"
+  default_prompt: "Use $deep-research to investigate this topic deeply, compare high-quality sources, and return a cited conclusion with confidence levels."

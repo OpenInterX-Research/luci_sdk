@@ -1,0 +1,2 @@
+run_id,depth_variant,object_type,material_type,distance_band,lighting_condition,size_mae_mm,relative_error_percent,detection_success,depth_hole_rate,runtime_ms,failure_type,notes
+

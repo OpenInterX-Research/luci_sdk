@@ -1,0 +1,2 @@
+participant_id,order_group,condition,task_id,completion_time_s,task_success,error_count,help_requests,loc_or_config_effort,sus_score,nasa_tlx_score,extend_confidence_likert,top_helpful_1,top_helpful_2,top_pain_1,top_pain_2,notes
+
